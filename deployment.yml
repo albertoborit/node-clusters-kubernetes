@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-cluster-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: express-cluster
+  template:
+    metadata:
+      labels:
+        app: express-cluster
+    spec:
+      containers:
+      - name: express-cluster
+        image: my-express-cluster-app:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        env:
+        - name: NODE_ENV
+          value: "production"
